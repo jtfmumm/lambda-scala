@@ -26,8 +26,8 @@
       <file leaf-file-name="lambda.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lambda.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37535545" vertical-offset="198" max-vertical-offset="1826">
-              <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+            <state vertical-scroll-proportion="-0.02085308" vertical-offset="594" max-vertical-offset="1848">
+              <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -381,12 +381,12 @@
       <changelist id="feb9d8cf-75a7-4dab-a718-840972de6c09" name="Default" comment="" />
       <created>1422969915514</created>
       <updated>1422969915514</updated>
-      <workItem from="1422969914288" duration="6413000" />
+      <workItem from="1422969914288" duration="6693000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6413000" />
+    <option name="totallyTimeSpent" value="6693000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1175" extended-state="0" />
@@ -441,8 +441,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lambda.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37535545" vertical-offset="198" max-vertical-offset="1826">
-          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+        <state vertical-scroll-proportion="-0.02085308" vertical-offset="594" max-vertical-offset="1848">
+          <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
           <folding />
         </state>
       </provider>

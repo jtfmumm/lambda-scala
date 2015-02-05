@@ -6,11 +6,11 @@ sealed trait Expr {
 }
 case class Name(name: String) extends Expr {
   def sub(nm: Expr, arg: Expr): Expr = {
-    println("Name is " ++ this.toString ++ " and arg is " ++ nm.toString)
     if (this == nm) arg else this
   }
   def simplify(): Expr = this
   def beta(arg: Expr): Expr = throw new RuntimeException("Cannot beta reduce a name!")
+  def eval(): Expr = this
   override def toString(): String = name
 }
 case class Lmbd(param: Name, body: Expr) extends Expr {
@@ -21,6 +21,7 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
     if (param == name) this else Lmbd(param, body.sub(name, arg))
   }
   def simplify(): Expr = this
+  def eval(): Expr = this
   override def toString(): String = "\\" ++ param.toString ++ "." ++ body.toString
 }
 case class Appl(fn: Expr, arg: Expr) extends Expr {
