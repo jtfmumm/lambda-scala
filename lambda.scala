@@ -6,6 +6,7 @@ sealed trait Expr {
 }
 case class Name(name: String) extends Expr {
   def sub(nm: Expr, arg: Expr): Expr = {
+    println("Name is " ++ this.toString ++ " and arg is " ++ nm.toString)
     if (this == nm) arg else this
   }
   def simplify(): Expr = this
@@ -23,8 +24,8 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
   override def toString(): String = "\\" ++ param.toString ++ "." ++ body.toString
 }
 case class Appl(fn: Expr, arg: Expr) extends Expr {
-  def sub(name: Expr, arg: Expr): Appl = {
-    Appl(fn.sub(name, arg), arg.sub(name, arg))
+  def sub(name: Expr, a: Expr): Appl = {
+    Appl(fn.sub(name, a), arg.sub(name, a))
   }
   def simplify(): Expr = {
     fn match {
