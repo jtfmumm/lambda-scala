@@ -3,6 +3,7 @@ sealed trait Expr {
   def beta(arg: Expr): Expr
   def simplify(): Expr
   def toString(): String
+  def eval(): Expr
 }
 case class Name(name: String) extends Expr {
   def sub(nm: Expr, arg: Expr): Expr = {
@@ -18,9 +19,9 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
     body.sub(param, arg.simplify())
   }
   def sub(name: Expr, arg: Expr): Lmbd = {
-    if (param == name) this else Lmbd(param, body.sub(name, arg))
+    if (param == name || param == arg) this else Lmbd(param, body.sub(name, arg))
   }
-  def simplify(): Expr = this
+  def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
   override def toString(): String = "\\" ++ param.toString ++ "." ++ body.toString
 }
@@ -28,28 +29,23 @@ case class Appl(fn: Expr, arg: Expr) extends Expr {
   def sub(name: Expr, a: Expr): Appl = {
     Appl(fn.sub(name, a), arg.sub(name, a))
   }
+
   def simplify(): Expr = {
-    fn match {
-      case Name(_) => this
-      case Lmbd(_, _) => fn.beta(arg).simplify()
-      case Appl(_, _) => Appl(fn.simplify(), arg).simplify()
+    fn.simplify() match {
+      case n@Name(_) => Appl(n, arg.simplify())
+      case l@Lmbd(_, _) => l.beta(arg.simplify()).simplify()
+      case ap@Appl(_, _) => Appl(ap, arg.simplify())
     }
   }
-  def beta(arg: Expr): Expr = {
+  def beta(a: Expr): Expr = {
     val simplified = this.simplify()
     simplified match {
-      case Name(_) => Appl(simplified, arg)
-      case Appl(_, _) => Appl(this, arg)
-      case Lmbd(_, _) => simplified.beta(arg)
+      case Name(_) => Appl(simplified, a.simplify())
+      case Appl(_, _) => Appl(simplified, a.simplify())
+      case Lmbd(_, _) => simplified.beta(a.simplify())
     }
   }
-  def eval(): Expr = {
-    val simplifiedFn = fn.simplify()
-    simplifiedFn match {
-      case Name(_) => Appl(simplifiedFn, arg.simplify())
-      case _ => simplifiedFn.beta(arg.simplify())
-    }
-  }
+  def eval(): Expr = this.simplify()
   override def toString(): String = "(" ++ fn.toString ++ " " ++ arg.toString ++ ")"
 }
 
