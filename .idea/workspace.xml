@@ -26,8 +26,8 @@
       <file leaf-file-name="lambda.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lambda.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.042226486" vertical-offset="1144" max-vertical-offset="2926">
-              <caret line="50" column="22" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.3666027" vertical-offset="498" max-vertical-offset="2926">
+              <caret line="40" column="1" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -384,12 +384,12 @@
       <changelist id="feb9d8cf-75a7-4dab-a718-840972de6c09" name="Default" comment="" />
       <created>1422969915514</created>
       <updated>1422969915514</updated>
-      <workItem from="1422969914288" duration="31036000" />
+      <workItem from="1422969914288" duration="32465000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31036000" />
+    <option name="totallyTimeSpent" value="32465000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1175" extended-state="0" />
@@ -444,8 +444,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lambda.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.042226486" vertical-offset="1144" max-vertical-offset="2926">
-          <caret line="50" column="22" selection-start-line="50" selection-start-column="22" selection-end-line="50" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.3666027" vertical-offset="498" max-vertical-offset="2926">
+          <caret line="40" column="1" selection-start-line="40" selection-start-column="1" selection-end-line="40" selection-end-column="1" />
           <folding />
         </state>
       </provider>

@@ -29,7 +29,7 @@ case class Name(name: String) extends Expr {
   override def toString(): String = NameDirectory.lookup(name)
 }
 //Generates unique names using mutable index to avoid name clashes and
-//maps unique name to original in the NameDirectory
+//maps unique name to original in the NameDirectory to improve output readability
 object UniqueName {
   var index = 0
   def gen(original: Name): Name = {
@@ -50,7 +50,7 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
   def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
   def \(a: Expr): Expr = this.beta(a)
-  override def toString(): String = "\\" ++ param.toString ++ "." ++ body.toString
+  override def toString(): String = "λ" ++ param.toString ++ "." ++ body.toString
 }
 case class Appl(fn: Expr, arg: Expr) extends Expr {
   def sub(name: Expr, a: Expr): Appl = {
