@@ -25,7 +25,7 @@ case class Name(name: String) extends Expr {
   def simplify(): Expr = this
   def beta(arg: Expr): Expr = throw new RuntimeException("Cannot beta reduce a name!")
   def eval(): Expr = this
-  def \(arg: Expr): Expr = this
+  def \(a: Expr): Expr = this
   override def toString(): String = NameDirectory.lookup(name)
 }
 //Generates unique names using mutable index to avoid name clashes and
@@ -40,8 +40,8 @@ object UniqueName {
   }
 }
 case class Lmbd(param: Name, body: Expr) extends Expr {
-  def beta(arg: Expr): Expr = {
-    body.sub(param, arg.simplify())
+  def beta(a: Expr): Expr = {
+    body.sub(param, a.simplify()).simplify()
   }
   def sub(name: Expr, arg: Expr): Lmbd = {
       val uniqueName = UniqueName.gen(param)
@@ -49,31 +49,25 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
   }
   def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
-  def \(arg: Expr): Expr = this.beta(arg.simplify()).simplify()
+  def \(a: Expr): Expr = this.beta(a)
   override def toString(): String = "\\" ++ param.toString ++ "." ++ body.toString
 }
 case class Appl(fn: Expr, arg: Expr) extends Expr {
   def sub(name: Expr, a: Expr): Appl = {
     Appl(fn.sub(name, a), arg.sub(name, a))
   }
-
   def simplify(): Expr = {
-    fn.simplify() match {
-      case n@Name(_) => Appl(n, arg.simplify())
-      case l@Lmbd(_, _) => l.beta(arg.simplify()).simplify()
-      case ap@Appl(_, _) => Appl(ap, arg.simplify())
+    val sFn = fn.simplify()
+    val sArg = arg.simplify()
+    sFn match {
+      case Name(_) => Appl(sFn, sArg)
+      case Lmbd(_, _) => sFn.beta(sArg)
+      case Appl(_, _) => Appl(sFn, sArg)
     }
   }
-  def beta(a: Expr): Expr = {
-    val simplified = this.simplify()
-    simplified match {
-      case Name(_) => Appl(simplified, a.simplify())
-      case Appl(_, _) => Appl(simplified, a.simplify())
-      case Lmbd(_, _) => simplified.beta(a.simplify())
-    }
-  }
+  def beta(a: Expr): Expr = Appl(this, a).eval()
   def eval(): Expr = this.simplify()
-  def \(arg: Expr): Expr = Appl(this, arg.simplify()).eval()
+  def \(a: Expr): Expr = Appl(this, a).eval()
   override def toString(): String = "(" ++ fn.toString ++ " " ++ arg.toString ++ ")"
 }
 
