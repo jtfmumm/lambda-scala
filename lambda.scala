@@ -24,8 +24,8 @@ case class Name(name: String) extends Expr {
   def eval(): Expr = this
   override def toString(): String = NameDirectory.lookup(name)
 }
-//Generates unique names to avoid name clashes and
-//stores them in the NameDirectory
+//Generates unique names using mutable index to avoid name clashes and
+//maps unique name to original in the NameDirectory
 object UniqueName {
   var index = 0
   def gen(original: Name): Name = {
@@ -120,8 +120,10 @@ val zz = Appl(Appl(makePair, zero), zero) // (0 0)
 val ns = Lmbd(p, Appl(Appl(makePair, Appl(p, second)), Appl(succ, Appl(p, second)))) //(0 0) -> (0 1), (0 1) -> (1 2), (1 2) -> (2 3),...
 val pred = Lmbd(n, Appl(Appl(Appl(n, ns), zz), first)) //Apply ns n times to zz. Choose the first value, which will be the predecessor of n
 
-
-val add = Lmbd(m, Lmbd(n, Lmbd(f, Lmbd(z, Appl(Appl(m, f), Appl(Appl(n, f), z))))))
+val plus = Lmbd(m, Lmbd(n, Lmbd(f, Lmbd(z, Appl(Appl(m, f), Appl(Appl(n, f), z))))))
+val minus = Lmbd(m, Lmbd(n, Appl(Appl(n, pred), m)))
+val mult = Lmbd(n, Lmbd(m, Appl(Appl(n, Appl(plus, m)), zero)))
+val pow = Lmbd(n, Lmbd(m, Appl(m, n)))
 
 val one = Appl(succ, zero)
 val two = Appl(succ, one)
