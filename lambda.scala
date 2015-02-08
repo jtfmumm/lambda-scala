@@ -14,6 +14,7 @@ sealed trait Expr {
   def simplify(): Expr
   def toString(): String
   def eval(): Expr
+  def \(arg: Expr): Expr
 }
 case class Name(name: String) extends Expr {
   def sub(nm: Expr, arg: Expr): Expr = {
@@ -22,6 +23,7 @@ case class Name(name: String) extends Expr {
   def simplify(): Expr = this
   def beta(arg: Expr): Expr = throw new RuntimeException("Cannot beta reduce a name!")
   def eval(): Expr = this
+  def \(arg: Expr): Expr = this
   override def toString(): String = NameDirectory.lookup(name)
 }
 //Generates unique names using mutable index to avoid name clashes and
@@ -45,6 +47,7 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
   }
   def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
+  def \(arg: Expr): Expr = this.beta(arg.simplify()).simplify()
   override def toString(): String = "\\" ++ param.toString ++ "." ++ body.toString
 }
 case class Appl(fn: Expr, arg: Expr) extends Expr {
@@ -68,6 +71,7 @@ case class Appl(fn: Expr, arg: Expr) extends Expr {
     }
   }
   def eval(): Expr = this.simplify()
+  def \(arg: Expr): Expr = Appl(this, arg.simplify()).eval()
   override def toString(): String = "(" ++ fn.toString ++ " " ++ arg.toString ++ ")"
 }
 
@@ -77,6 +81,7 @@ val x = Name("x")
 val y = Name("y")
 val z = Name("z")
 val f = Name("f")
+val g = Name("g")
 val m = Name("m")
 val n = Name("n")
 val o = Name("o")
@@ -86,7 +91,7 @@ val b1 = Name("b1")
 val b2 = Name("b2")
 
 val id = Lmbd(x, x)
-val selfApp = Lmbd(x, Appl(x, x))
+val selfapp = Lmbd(x, Appl(x, x))
 
 val tr = Lmbd(x, Lmbd(y, x))
 val fs = Lmbd(x, Lmbd(y, y))
@@ -95,11 +100,11 @@ val first = Lmbd(x, Lmbd(y, x))
 val second = Lmbd(x, Lmbd(y, y))
 val makePair = Lmbd(x, Lmbd(y, Lmbd(o, Appl(Appl(o, x), y))))
 
-val ifelse = Lmbd(b1, Lmbd(b2, Lmbd(c, Appl(Appl(c, b1), b2)))) //Takes branch1, branch2, condition
+val ifelse = Lmbd(c, Lmbd(b1, Lmbd(b2, Appl(Appl(c, b1), b2))))
 
 val zero = Lmbd(f, Lmbd(z, z))
 val succ = Lmbd(n, Lmbd(f, Lmbd(z, Appl(f, Appl(Appl(n, f), z)))))
-val isZero = Lmbd(n, Appl(Appl(n, Appl(x, fs)), tr))  //If not zero, ignore the number and return false
+val iszero = Lmbd(n, Appl(Appl(n, Appl(first, fs)), tr))  //If not zero, ignore the number and return false
 
 val zz = Appl(Appl(makePair, zero), zero) // (0 0)
 val ns = Lmbd(p, Appl(Appl(makePair, Appl(p, second)), Appl(succ, Appl(p, second)))) //(0 0) -> (0 1), (0 1) -> (1 2), (1 2) -> (2 3),...
@@ -116,3 +121,6 @@ val three = Appl(succ, two)
 val four = Appl(succ, three)
 val five = Appl(succ, four)
 val six = Appl(succ, five)
+
+val fixedPoint = Lmbd(f, Appl(selfapp, Lmbd(g, Appl(f, Appl(g, g)))))
+
