@@ -1,3 +1,13 @@
+
+
+//Map generated unique names to original names to make toString methods more readable
+object NameDirectory {
+  var directory = scala.collection.mutable.Map[String, String]()
+  def update(unique: String, old: String) = directory += (unique -> old)
+  def lookup(name: String) = directory.getOrElse(name, name)
+}
+
+//Lambda Expressions
 sealed trait Expr {
   def sub(name: Expr, arg: Expr): Expr
   def beta(arg: Expr): Expr
@@ -12,14 +22,26 @@ case class Name(name: String) extends Expr {
   def simplify(): Expr = this
   def beta(arg: Expr): Expr = throw new RuntimeException("Cannot beta reduce a name!")
   def eval(): Expr = this
-  override def toString(): String = name
+  override def toString(): String = NameDirectory.lookup(name)
+}
+//Generates unique names to avoid name clashes and
+//stores them in the NameDirectory
+object UniqueName {
+  var index = 0
+  def gen(original: Name): Name = {
+    index += 1
+    val unique = new Name("u" + index)
+    NameDirectory.update(unique.name, original.name)
+    unique
+  }
 }
 case class Lmbd(param: Name, body: Expr) extends Expr {
   def beta(arg: Expr): Expr = {
     body.sub(param, arg.simplify())
   }
   def sub(name: Expr, arg: Expr): Lmbd = {
-    if (param == name || param == arg) this else Lmbd(param, body.sub(name, arg))
+      val uniqueName = UniqueName.gen(param)
+      Lmbd(uniqueName, body.sub(param, uniqueName).sub(name, arg))
   }
   def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
@@ -104,7 +126,3 @@ val add = Lmbd(m, Lmbd(n, Lmbd(f, Lmbd(z, Appl(Appl(m, f), Appl(Appl(n, f), z)))
 val one = Appl(succ, zero)
 val two = Appl(succ, one)
 val three = Appl(succ, two)
-
-
-
-
