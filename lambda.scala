@@ -123,6 +123,11 @@ val three = Appl(succ, two)
 val four = Appl(succ, three)
 val five = Appl(succ, four)
 val six = Appl(succ, five)
+val seven = Appl(succ, six)
+val eight = Appl(succ, seven)
+val nine = Appl(succ, eight)
+val ten = Appl(succ, nine)
+//Constructing new numbers is fun: e.g. plus \ (mult \ three \ ten ) \ six  ->  thirty-six
 
 val fixedPoint = Lmbd(f, Appl(selfapp, Lmbd(g, Appl(f, Appl(g, g)))))
 
