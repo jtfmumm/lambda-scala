@@ -14,6 +14,8 @@ sealed trait Expr {
   def simplify(): Expr
   def toString(): String
   def eval(): Expr
+  //Syntactic sugar for function application
+  //e.g. plus \ one \ two  ->  three
   def \(arg: Expr): Expr
 }
 case class Name(name: String) extends Expr {
