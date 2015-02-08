@@ -71,23 +71,8 @@ case class Appl(fn: Expr, arg: Expr) extends Expr {
   override def toString(): String = "(" ++ fn.toString ++ " " ++ arg.toString ++ ")"
 }
 
-//case class LExp(exp: String) {
-//  def s: Expr = {
-//    def loop(e: List[Char]): Expr = {
-//      e match {
-//        case h::m::t if h == "\\" => Lmbd(Name(m), loop(t))
-//        case h::t if h == "(" => Appl(loop(parseFn(t)), loop(restAppl(t))
-//        case n == Name(n)
-//      }
-//    }
-//    loop(exp.toList)
-//  }
-//
-//  def parseFn(t: String) = t.split(" ")(0)
-//}
 
-
-
+//Definitions
 val x = Name("x")
 val y = Name("y")
 val z = Name("z")
@@ -110,7 +95,7 @@ val first = Lmbd(x, Lmbd(y, x))
 val second = Lmbd(x, Lmbd(y, y))
 val makePair = Lmbd(x, Lmbd(y, Lmbd(o, Appl(Appl(o, x), y))))
 
-val cond = Lmbd(b1, Lmbd(b2, Lmbd(c, Appl(Appl(c, b1), b2))))
+val ifelse = Lmbd(b1, Lmbd(b2, Lmbd(c, Appl(Appl(c, b1), b2)))) //Takes branch1, branch2, condition
 
 val zero = Lmbd(f, Lmbd(z, z))
 val succ = Lmbd(n, Lmbd(f, Lmbd(z, Appl(f, Appl(Appl(n, f), z)))))
@@ -118,13 +103,16 @@ val isZero = Lmbd(n, Appl(Appl(n, Appl(x, fs)), tr))  //If not zero, ignore the 
 
 val zz = Appl(Appl(makePair, zero), zero) // (0 0)
 val ns = Lmbd(p, Appl(Appl(makePair, Appl(p, second)), Appl(succ, Appl(p, second)))) //(0 0) -> (0 1), (0 1) -> (1 2), (1 2) -> (2 3),...
-val pred = Lmbd(n, Appl(Appl(Appl(n, ns), zz), first)) //Apply ns n times to zz. Choose the first value, which will be the predecessor of n
+val pred = Lmbd(n, Appl(Appl(Appl(n, ns), zz), first)) //Apply ns n times to zz. Choose the first value, which will be the predecessor of n.  pred(zero) = zero
 
 val plus = Lmbd(m, Lmbd(n, Lmbd(f, Lmbd(z, Appl(Appl(m, f), Appl(Appl(n, f), z))))))
-val minus = Lmbd(m, Lmbd(n, Appl(Appl(n, pred), m)))
+val minus = Lmbd(m, Lmbd(n, Appl(Appl(n, pred), m))) //Bottoms out at zero
 val mult = Lmbd(n, Lmbd(m, Appl(Appl(n, Appl(plus, m)), zero)))
-val pow = Lmbd(n, Lmbd(m, Appl(m, n)))
+val pow = Lmbd(n, Lmbd(m, Appl(m, n))) //Returns nonsense if you raise anything to zero
 
 val one = Appl(succ, zero)
 val two = Appl(succ, one)
 val three = Appl(succ, two)
+val four = Appl(succ, three)
+val five = Appl(succ, four)
+val six = Appl(succ, five)
