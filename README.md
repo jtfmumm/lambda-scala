@@ -18,6 +18,9 @@ Appl(Name("f"), Name("a"))
 //-> "(f a)"  
 
 ## Syntactic sugar
+
+### \
+
 The \ operator peforms function application. Using named variables for functions as well as
 \ leads to simpler code:
 
@@ -40,6 +43,17 @@ val b = Name("b")
 
 makePair \ a \ b  
 //-> "λf.((f a) b)"  
+
+### ()
+
+You can also use traditional argument passing:  
+
+id(y)  
+//-> "y"  
+
+makePair(a)(b)    
+//-> "λf.((f a) b)"    
+
 
 
 	
