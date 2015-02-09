@@ -26,7 +26,7 @@ case class Name(name: String) extends Expr {
     if (this == nm) arg else this
   }
   def simplify(): Expr = this
-  def beta(arg: Expr): Expr = throw new RuntimeException("Cannot beta reduce a name!")
+  def beta(arg: Expr): Expr = this
   def eval(): Expr = this
   def \(a: Expr): Expr = this
   def apply(a: Expr): Expr = this
@@ -95,8 +95,8 @@ val b2 = Name("b2")
 val id = Lmbd(x, x)
 val selfapp = Lmbd(x, Appl(x, x))
 
-val tr = Lmbd(x, Lmbd(y, x))
-val fs = Lmbd(x, Lmbd(y, y))
+val tr = Lmbd(x, Lmbd(y, x))  //true
+val fs = Lmbd(x, Lmbd(y, y))  //false
 
 val first = Lmbd(x, Lmbd(y, x))
 val second = Lmbd(x, Lmbd(y, y))
