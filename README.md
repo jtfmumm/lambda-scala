@@ -22,7 +22,9 @@ Appl(Name("f"), Name("a"))
 ### \
 
 The \ operator peforms function application. Using named variables for functions as well as
-\ leads to simpler code:
+\ leads to simpler code.
+
+First, let's get some definitions out of the way:  
 
 val x = Name("x")  
 //-> "x"  
@@ -34,6 +36,8 @@ val id = Lmbd(x, x)
 //-> "λx.x"  
 val makePair = Lmbd(x, Lmbd(y, Lmbd(o, Appl(Appl(o, x), y))))  
 //-> "λx.λy.λo.((o x) y)"  
+
+Now, using those definitions, let's apply the \ operator:  
 
 id \ y      
 //-> "y"  
