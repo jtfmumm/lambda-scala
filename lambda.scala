@@ -9,14 +9,17 @@ object NameDirectory {
 
 //Lambda Expressions
 sealed trait Expr {
-  def sub(name: Expr, arg: Expr): Expr
-  def beta(arg: Expr): Expr
+  def sub(name: Expr, arg: Expr): Expr  //Name substitution
+  def beta(arg: Expr): Expr  //Beta reduction
   def simplify(): Expr
   def toString(): String
   def eval(): Expr
   //Syntactic sugar for function application
-  //e.g. plus \ one \ two  ->  three
+  //e.g. plus \ one \ two  //->  three
   def \(arg: Expr): Expr
+  //For traditional argument passing
+  //e.g. plus(one)(two)  //->  three
+  def apply(arg: Expr): Expr
 }
 case class Name(name: String) extends Expr {
   def sub(nm: Expr, arg: Expr): Expr = {
@@ -26,6 +29,7 @@ case class Name(name: String) extends Expr {
   def beta(arg: Expr): Expr = throw new RuntimeException("Cannot beta reduce a name!")
   def eval(): Expr = this
   def \(a: Expr): Expr = this
+  def apply(a: Expr): Expr = this
   override def toString(): String = NameDirectory.lookup(name)
 }
 //Generates unique names using mutable index to avoid name clashes and
@@ -50,6 +54,7 @@ case class Lmbd(param: Name, body: Expr) extends Expr {
   def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
   def \(a: Expr): Expr = this.beta(a)
+  def apply(a: Expr): Expr = this.beta(a)
   override def toString(): String = "λ" ++ param.toString ++ "." ++ body.toString
 }
 case class Appl(fn: Expr, arg: Expr) extends Expr {
@@ -68,6 +73,7 @@ case class Appl(fn: Expr, arg: Expr) extends Expr {
   def beta(a: Expr): Expr = Appl(this, a).eval()
   def eval(): Expr = this.simplify()
   def \(a: Expr): Expr = Appl(this, a).eval()
+  def apply(a: Expr): Expr = Appl(this, a).eval()
   override def toString(): String = "(" ++ fn.toString ++ " " ++ arg.toString ++ ")"
 }
 
