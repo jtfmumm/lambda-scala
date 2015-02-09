@@ -29,10 +29,10 @@ First, let's get some definitions out of the way:
 val x = Name("x")  
 //-> "x"  
 val y = Name("y")  
-//-> "y"  
 val f = Name("f")  
-//-> "f"  
-val id = Lmbd(x, x)  
+val a = Name("a")  
+val b = Name("b")   
+val id = Lmbd(x, x)    
 //-> "λx.x"  
 val makePair = Lmbd(x, Lmbd(y, Lmbd(o, Appl(Appl(o, x), y))))  
 //-> "λx.λy.λo.((o x) y)"  
@@ -41,9 +41,6 @@ Now, using those definitions, let's apply the \ operator:
 
 id \ y      
 //-> "y"  
-
-val a = Name("a")  
-val b = Name("b")  
 
 makePair \ a \ b  
 //-> "λf.((f a) b)"  
