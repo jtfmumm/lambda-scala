@@ -12,7 +12,6 @@ sealed trait Expr {
   def sub(name: Expr, arg: Expr): Expr  //Name substitution
   def beta(arg: Expr): Expr  //Beta reduction
   def simplify(): Expr
-  def toString(): String
   def eval(): Expr
   //Syntactic sugar for function application
   //e.g. plus \ one \ two  //->  three
@@ -20,13 +19,14 @@ sealed trait Expr {
   //For traditional argument passing
   //e.g. plus(one)(two)  //->  three
   def apply(arg: Expr): Expr
+  def toString(): String
 }
 case class Name(name: String) extends Expr {
   def sub(nm: Expr, arg: Expr): Expr = {
     if (this == nm) arg else this
   }
-  def simplify(): Expr = this
   def beta(arg: Expr): Expr = this
+  def simplify(): Expr = this
   def eval(): Expr = this
   def \(a: Expr): Expr = this
   def apply(a: Expr): Expr = this
@@ -44,12 +44,12 @@ object UniqueName {
   }
 }
 case class Lmbd(param: Name, body: Expr) extends Expr {
+  def sub(name: Expr, arg: Expr): Lmbd = {
+    val uniqueName = UniqueName.gen(param)
+    Lmbd(uniqueName, body.sub(param, uniqueName).sub(name, arg))
+  }
   def beta(a: Expr): Expr = {
     body.sub(param, a.simplify()).simplify()
-  }
-  def sub(name: Expr, arg: Expr): Lmbd = {
-      val uniqueName = UniqueName.gen(param)
-      Lmbd(uniqueName, body.sub(param, uniqueName).sub(name, arg))
   }
   def simplify(): Expr = Lmbd(param, body.simplify())
   def eval(): Expr = this
@@ -61,6 +61,7 @@ case class Appl(fn: Expr, arg: Expr) extends Expr {
   def sub(name: Expr, a: Expr): Appl = {
     Appl(fn.sub(name, a), arg.sub(name, a))
   }
+  def beta(a: Expr): Expr = Appl(this, a).eval()
   def simplify(): Expr = {
     val sFn = fn.simplify()
     val sArg = arg.simplify()
@@ -70,7 +71,6 @@ case class Appl(fn: Expr, arg: Expr) extends Expr {
       case Appl(_, _) => Appl(sFn, sArg)
     }
   }
-  def beta(a: Expr): Expr = Appl(this, a).eval()
   def eval(): Expr = this.simplify()
   def \(a: Expr): Expr = Appl(this, a).eval()
   def apply(a: Expr): Expr = Appl(this, a).eval()
