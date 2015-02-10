@@ -129,5 +129,12 @@ val nine = Appl(succ, eight)
 val ten = Appl(succ, nine)
 //Constructing new numbers is fun: e.g. plus \ (mult \ three \ ten ) \ six  ->  thirty-six
 
+val not = Lmbd(x, Appl(Appl(x, fs), tr))
+val or = Lmbd(x, Lmbd(y, Appl(Appl(x, tr), y)))
+val and = Lmbd(x, Lmbd(y, Appl(Appl(x, y), fs)))
+
+val eqnums = Lmbd(m, Lmbd(n, Appl(Appl(and, Appl(iszero, Appl(Appl(minus, m), n))), Appl(iszero, Appl(Appl(minus, n), m)))))
+val eqbools = Lmbd(x, Lmbd(y, Appl(Appl(x, Appl(Appl(y, tr), fs)), Appl(Appl(y, fs), tr))))
+
 val fixedPoint = Lmbd(f, Appl(selfapp, Lmbd(g, Appl(f, Appl(g, g)))))
 
