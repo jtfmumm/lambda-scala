@@ -132,6 +132,7 @@ val ten = Appl(succ, nine)
 val not = Lmbd(x, Appl(Appl(x, fs), tr))
 val or = Lmbd(x, Lmbd(y, Appl(Appl(x, tr), y)))
 val and = Lmbd(x, Lmbd(y, Appl(Appl(x, y), fs)))
+val impl = Lmbd(x, Lmbd(y, Appl(Appl(or, Appl(not, x)), y)))
 
 val eqnums = Lmbd(m, Lmbd(n, Appl(Appl(and, Appl(iszero, Appl(Appl(minus, m), n))), Appl(iszero, Appl(Appl(minus, n), m)))))
 val eqbools = Lmbd(x, Lmbd(y, Appl(Appl(x, Appl(Appl(y, tr), fs)), Appl(Appl(y, fs), tr))))

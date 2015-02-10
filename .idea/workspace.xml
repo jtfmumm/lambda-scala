@@ -26,8 +26,8 @@
       <file leaf-file-name="lambda.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lambda.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21880998" vertical-offset="2170" max-vertical-offset="3212">
-              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7466411" vertical-offset="2192" max-vertical-offset="3234">
+              <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -386,12 +386,12 @@
       <updated>1422969915514</updated>
       <workItem from="1422969914288" duration="34118000" />
       <workItem from="1423487838538" duration="56000" />
-      <workItem from="1423573467752" duration="517000" />
+      <workItem from="1423573467752" duration="1248000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34691000" />
+    <option name="totallyTimeSpent" value="35422000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1175" extended-state="0" />
@@ -462,8 +462,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lambda.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21880998" vertical-offset="2170" max-vertical-offset="3212">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7466411" vertical-offset="2192" max-vertical-offset="3234">
+          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
           <folding />
         </state>
       </provider>
