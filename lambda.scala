@@ -117,16 +117,16 @@ val minus = Lmbd(m, Lmbd(n, Appl(Appl(n, pred), m))) //Bottoms out at zero
 val mult = Lmbd(n, Lmbd(m, Appl(Appl(n, Appl(plus, m)), zero)))
 val pow = Lmbd(n, Lmbd(m, Appl(m, n))) //Returns nonsense if you raise anything to zero
 
-val one = Appl(succ, zero)
-val two = Appl(succ, one)
-val three = Appl(succ, two)
-val four = Appl(succ, three)
-val five = Appl(succ, four)
-val six = Appl(succ, five)
-val seven = Appl(succ, six)
-val eight = Appl(succ, seven)
-val nine = Appl(succ, eight)
-val ten = Appl(succ, nine)
+val one = Appl(succ, zero).eval
+val two = Appl(succ, one).eval
+val three = Appl(succ, two).eval
+val four = Appl(succ, three).eval
+val five = Appl(succ, four).eval
+val six = Appl(succ, five).eval
+val seven = Appl(succ, six).eval
+val eight = Appl(succ, seven).eval
+val nine = Appl(succ, eight).eval
+val ten = Appl(succ, nine).eval
 //Constructing new numbers is fun: e.g. plus \ (mult \ three \ ten ) \ six  ->  thirty-six
 
 val not = Lmbd(x, Appl(Appl(x, fs), tr))
