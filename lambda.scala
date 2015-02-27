@@ -112,7 +112,7 @@ val zz = Appl(Appl(makePair, zero), zero) // (0 0)
 val ns = Lmbd(p, Appl(Appl(makePair, Appl(p, second)), Appl(succ, Appl(p, second)))) //(0 0) -> (0 1), (0 1) -> (1 2), (1 2) -> (2 3),...
 val pred = Lmbd(n, Appl(Appl(Appl(n, ns), zz), first)) //Apply ns n times to zz. Choose the first value, which will be the predecessor of n.  pred(zero) = zero
 
-val plus = Lmbd(m, Lmbd(n, Lmbd(f, Lmbd(z, Appl(Appl(m, f), Appl(Appl(n, f), z))))))
+val plus = Lmbd(m, Lmbd(n, Appl(Appl(n, succ), m)))
 val minus = Lmbd(m, Lmbd(n, Appl(Appl(n, pred), m))) //Bottoms out at zero
 val mult = Lmbd(n, Lmbd(m, Appl(Appl(n, Appl(plus, m)), zero)))
 val pow = Lmbd(n, Lmbd(m, Appl(m, n))) //Returns nonsense if you raise anything to zero
