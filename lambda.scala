@@ -1,5 +1,3 @@
-
-
 //Map generated unique names to original names to make toString methods more readable
 object NameDirectory {
   var directory = scala.collection.mutable.Map[String, String]()
